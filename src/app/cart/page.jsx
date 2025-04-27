@@ -9,14 +9,32 @@ import {
 } from "@/lib/store/cartSlice";
 import Link from "next/link";
 import Image from "next/image";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 function CartPage() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { items, totalItems } = useSelector((state) => state.cart);
 
   const calculateTotal = () => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const handleCheckout = () => {
+    const totalAmount = calculateTotal();
+    const queryParams = new URLSearchParams({
+      total: totalAmount.toFixed(2),
+      items: totalItems,
+      products: JSON.stringify(
+        items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        }))
+      ),
+    });
+    router.push(`/checkout?${queryParams.toString()}`);
   };
 
   if (totalItems === 0) {
@@ -200,9 +218,10 @@ function CartPage() {
                 </dl>
               </div>
 
-              <button className="flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
-              
-              onClick={()=>router.push('/checkout')}>
+              <button
+                className="flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-primary-300 cursor-pointer"
+                onClick={handleCheckout}
+              >
                 Proceed to Checkout
               </button>
 
