@@ -1,39 +1,38 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { add } from '@/lib/store/cartSlice';
-import { getProducts } from '@/lib/store/productSlice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../lib/store/productSlice";
+import { add } from "../../../lib/store/cartSlice";
+import { useParams } from "next/navigation";
 
-function ProductPage({ params }) {
+const SingleProduct = () => {
+  const { productid } = useParams();
   const dispatch = useDispatch();
-  const { data: products, loading } = useSelector((state) => state.products);
-  const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const { data: products, status } = useSelector((state) => state.products);
+
+  const addToCart = (product) => {
+    dispatch(add(product));
+  };
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (products && products.length > 0) {
-      const foundProduct = products.find(p => p.id === parseInt(params.productId));
-      setProduct(foundProduct);
+    if (status === "idle") {
+      dispatch(getProducts());
     }
-  }, [products, params.productId]);
+  }, [status, dispatch]);
 
-  if (loading || !product) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-lg">Loading product...</p>
-      </div>
-    );
+  const product = products.find((item) => item.id.toString() === productid);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
   }
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      dispatch(add(product));
-    }
-  };
+  if (status === "failed") {
+    return <div>Failed to load product data. Please try again later.</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found.</div>;
+  }
 
   return (
     <section className="py-8 bg-white md:py-16 antialiased">
@@ -41,9 +40,9 @@ function ProductPage({ params }) {
         <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
           <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
             <img
-              className="w-full rounded-lg"
               src={`https://admin.refabry.com/storage/product/${product.image}`}
               alt={product.name}
+              width={300}
             />
           </div>
 
@@ -53,102 +52,83 @@ function ProductPage({ params }) {
             </h1>
             <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
               <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                {product.price.toFixed(2)} BDT
+                ৳{product.price}
               </p>
 
-              {product.is_discount && (
-                <div className="mt-2 sm:mt-0">
-                  <span className="line-through text-red-500 mr-2">
-                    {(product.price + parseFloat(product.discount_amount)).toFixed(2)} BDT
-                  </span>
-                  <span className="text-green-600">
-                    Save {product.discount_amount} BDT
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200"
-                  >
-                    <svg
-                      className="h-2.5 w-2.5 text-gray-900"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 2"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M1 1h16"
-                      />
-                    </svg>
-                  </button>
-                  <span className="mx-2">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200"
-                  >
-                    <svg
-                      className="h-2.5 w-2.5 text-gray-900"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 18"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 1v16M1 9h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <p className={`text-sm ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
-                  {product.stock > 0 ? `In Stock (${product.stock})` : "Out of Stock"}
+              <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                <p className="text-sm font-medium leading-none text-gray-500">
+                  {product.stock > 0 ? "Available" : "Out of Stock"}
                 </p>
               </div>
+            </div>
+
+            <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+              <a
+                href="#"
+                title=""
+                className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                role="button"
+              >
+                <svg
+                  className="w-5 h-5 -ms-2 me-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
+                  />
+                </svg>
+                Add to favorites
+              </a>
 
               <button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+                type="button"
+                className="text-white mt-4 sm:mt-0 bg-blue-600 hover:bg-blue-600 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center"
+                role="button"
+                onClick={() => {
+                  addToCart(product);
+                }}
               >
-                Add to Cart
+                <svg
+                  className="w-5 h-5 -ms-2 me-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
+                  />
+                </svg>
+                Add to cart
               </button>
             </div>
 
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold text-gray-900">Product Details</h2>
-              <div className="mt-4 space-y-4">
-                <p className="text-gray-600">
-                  <span className="font-medium">Category:</span> {product.category.name}
-                </p>
-                <p className="text-gray-600">
-                  <span className="font-medium">Product Code:</span> {product.code}
-                </p>
-                <div className="text-gray-600">
-                  <span className="font-medium">Description:</span>
-                  {product.short_desc.split("\r\n").map((line, i) => (
-                    <p key={i} className="mt-1">{line}</p>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <hr className="my-6 md:my-8 border-gray-200" />
+            {product.short_desc.split("\r\n").map((line, i) => (
+              <p key={i} className="mb-2 text-gray-500">
+                {line}
+              </p>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
-export default ProductPage;
+export default SingleProduct;

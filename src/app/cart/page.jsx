@@ -9,6 +9,7 @@ import {
 } from "@/lib/store/cartSlice";
 import Link from "next/link";
 import Image from "next/image";
+import Router from "next/router";
 
 function CartPage() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function CartPage() {
             <p className="text-lg text-gray-500">Your cart is empty</p>
             <Link
               href="/shop"
-              className="mt-4 inline-flex items-center text-primary-700 hover:text-primary-800"
+              className="mt-4 inline-flex items-center text-blue-400 hover:text-primary-800"
             >
               Continue Shopping
               <svg
@@ -199,7 +200,9 @@ function CartPage() {
                 </dl>
               </div>
 
-              <button className="flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300">
+              <button className="flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+              
+              onClick={()=>router.push('/checkout')}>
                 Proceed to Checkout
               </button>
 
@@ -207,7 +210,7 @@ function CartPage() {
                 <span className="text-sm font-normal text-gray-500">or</span>
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 underline hover:no-underline"
                 >
                   Continue Shopping
                   <svg

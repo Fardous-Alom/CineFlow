@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
@@ -24,7 +23,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-56 md:h-96">
+    <div className="relative w-full h-56 md:h-96 rounded-lg overflow-hidden">
       {images.map((src, i) => (
         <div
           key={src}
@@ -48,7 +47,7 @@ export default function Hero() {
             key={i}
             onClick={() => setCurrent(i)}
             className={`w-3 h-3 rounded-full ${
-              i === current ? "bg-blue-500" : "bg-gray-300"
+              i === current ? "bg-blue-500" : "bg-gray-300 cursor-pointer"
             }`}
           />
         ))}
@@ -56,13 +55,13 @@ export default function Hero() {
 
       <button
         onClick={prev}
-        className="absolute top-0 left-0 h-full px-4 text-white text-xl"
+        className="absolute top-0 left-0 h-full px-4 text-white text-xl cursor-pointer"
       >
         ❮
       </button>
       <button
         onClick={next}
-        className="absolute top-0 right-0 h-full px-4 text-white text-xl"
+        className="absolute top-0 right-0 h-full px-4 text-white text-xl cursor-pointer"
       >
         ❯
       </button>

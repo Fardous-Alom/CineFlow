@@ -1,3 +1,4 @@
+import BestSelling from "@/components/BestSelling";
 import Categories from "@/components/home/Categories";
 import Hero from "@/components/home/Hero";
 
@@ -6,6 +7,7 @@ export default function Home() {
     <div className="bg-white">
       <Hero />
       <Categories/>
+      <BestSelling/>
     </div>
   );
 }

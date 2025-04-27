@@ -52,7 +52,7 @@ const Categories = () => {
         <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10">
           <button
             onClick={() => scroll(-300)}
-            className="text-black hover:text-secondary p-2 rounded-full"
+            className="text-gray-500 hover:text-gray-900 cursor-pointer p-2 rounded-full"
           >
             <IoChevronBackOutline size={24} />
           </button>
@@ -60,7 +60,7 @@ const Categories = () => {
         <div className="absolute top-1/2 -translate-y-1/2 right-4 z-10">
           <button
             onClick={() => scroll(300)}
-            className="text-primary hover:text-secondary p-2 rounded-full"
+            className="text-gray-500 hover:text-gray-900 cursor-pointer p-2 rounded-full"
           >
             <IoChevronForwardOutline size={24} />
           </button>
@@ -76,7 +76,7 @@ const Categories = () => {
               key={category.label}
               className="flex flex-col items-center gap-3 min-w-[100px]"
             >
-              <div className="w-16 h-16 rounded-full bg-primary hover:bg-secondary flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center">
                 <category.icon className="text-2xl" />
               </div>
               <span className="text-sm font-medium text-center text-black">

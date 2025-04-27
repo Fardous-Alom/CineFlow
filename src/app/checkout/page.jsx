@@ -1,7 +1,7 @@
 import React from "react";
+import { FiPlus } from "react-icons/fi";
 
 function Page() {
-  // Changed from 'page' to 'Page' to follow React component naming conventions
   return (
     <section className="bg-white py-8 antialiased md:py-16">
       <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -74,7 +74,7 @@ function Page() {
                     </label>
                   </div>
                   <input
-                    type="text" // Changed from email to text since this is a city field
+                    type="text"
                     id="city"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                     placeholder="Dhaka"
@@ -91,7 +91,7 @@ function Page() {
                   </label>
                   <div className="flex items-center">
                     <input
-                      type="tel" // Changed from number to tel for better phone number input
+                      type="tel"
                       id="phone"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                       required
@@ -107,7 +107,7 @@ function Page() {
                     Address
                   </label>
                   <input
-                    type="text" // Changed from email to text since this is an address field
+                    type="text"
                     id="address"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                     placeholder="Enter your address"
@@ -120,23 +120,7 @@ function Page() {
                     type="submit"
                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
                   >
-                    <svg
-                      className="h-5 w-5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round" // Fixed: changed stroke-linecap to strokeLinecap
-                        strokeLinejoin="round" // Fixed: changed stroke-linejoin to strokeLinejoin
-                        strokeWidth="2" // Fixed: changed stroke-width to strokeWidth
-                        d="M5 12h14m-7 7V5"
-                      />
-                    </svg>
+                    <FiPlus className="h-5 w-5" />
                     Add new address
                   </button>
                 </div>
@@ -157,7 +141,7 @@ function Page() {
                         name="payment-method"
                         value=""
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600"
-                        defaultChecked // Changed from checked to defaultChecked for React
+                        defaultChecked
                       />
                     </div>
 
@@ -313,4 +297,4 @@ function Page() {
   );
 }
 
-export default Page; // Changed from 'page' to 'Page'
+export default Page;

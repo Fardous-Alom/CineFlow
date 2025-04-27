@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+//** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -8,7 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
-      // You can add other allowed image domains here as needed
+      {
+        protocol: "https",
+        hostname: "admin.refabry.com",
+        port: "",
+        pathname: "/storage/product/**",
+      },
     ],
   },
   // ... other Next.js config options

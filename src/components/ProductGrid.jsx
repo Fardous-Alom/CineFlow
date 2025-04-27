@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { add } from "../lib/store/cartSlice";
 import { getProducts } from "../lib/store/productSlice";
 import Link from "next/link";
+import { IoHeart, IoCart } from "react-icons/io5";
 
 function ProductGrid() {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,92 +46,112 @@ function ProductGrid() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8">Our Products</h2>
+    <section className="py-8 antialiased md:py-12">
+      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
+          <h2 className="mt-3 text-xl font-semibold text-gray-900 sm:text-2xl">
+            Trending Products
+          </h2>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-          >
-            <Link href={`/product/${product.id}`}>
-              <div className="relative h-48">
-                <img
-                  src={`https://admin.refabry.com/storage/product/${product.image}`}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </Link>
-
-            <div className="p-4">
-              <Link href={`/product/${product.id}`}>
-                <h3 className="text-xl font-semibold mb-2 hover:text-blue-600">
-                  {product.name}
-                </h3>
-              </Link>
-
-              <p className="text-gray-600 text-sm mb-2">
-                {product.category.name}
-              </p>
-
-              <div className="mb-3">
-                <span className="font-bold text-lg">
-                  {product.price.toFixed(2)} BDT
-                </span>
-
-                {/* Discount if available */}
-                {product.is_discount && (
-                  <div className="mt-1">
-                    <span className="line-through text-red-500 mr-2">
-                      {(
-                        product.price + parseFloat(product.discount_amount)
-                      ).toFixed(2)}{" "}
-                      BDT
-                    </span>
-                    <span className="text-green-600 text-sm">
-                      (Save {product.discount_amount} BDT)
-                    </span>
+        <div className="mb-4  grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="rounded-lg border border-gray-200 bg-white p-2 shadow-sm"
+            >
+              <div className="relative h-56 w-full">
+                <Link href={`/product/${product.id}`}>
+                  <div className="relative h-48">
+                    <img
+                      src={`https://admin.refabry.com/storage/product/${product.image}`}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                )}
+                </Link>
               </div>
 
-              {/* Stock Status */}
-              <p
-                className={`mb-2 text-sm ${
-                  product.stock > 0 ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {product.stock > 0
-                  ? `In Stock (${product.stock})`
-                  : "Out of Stock"}
-              </p>
+              <div className="py-4 px-2">
+                <div className="mb-4 flex items-center justify-between gap-4">
+                  {/* product category */}
+                  <span className="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                    {product.category.name}
+                    {/* {product.is_discount && (
+                      <div className="mt-1">
+                        <span className="line-through text-red-500 mr-2">
+                          {(
+                            product.price + parseFloat(product.discount_amount)
+                          ).toFixed(2)}{" "}
+                          BDT
+                        </span>
+                        <span className="text-green-600 text-sm">
+                          (Save {product.discount_amount} BDT)
+                        </span>
+                      </div>
+                    )} */}
+                  </span>
 
-              {/* Product Code */}
-              <p className="text-gray-500 text-xs mb-3">Code: {product.code}</p>
+                  {/* wishlist button */}
+                  <button
+                    type="button"
+                    className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                    aria-label={`Add ${product.name} to favorites`}
+                  >
+                    <IoHeart className="h-5 w-5" />
+                  </button>
+                </div>
+                {/* product name */}
+                <Link
+                  href={`/products/${product.id}`}
+                  passHref
+                  id={`product-${product.id}-title`}
+                  className="text-lg font-semibold leading-tight text-gray-900 hover:underline"
+                >
+                  {product.name}
+                </Link>
 
-              {/* Description */}
-              <div className="border-t pt-3">
-                {product.short_desc.split("\r\n").map((line, i) => (
-                  <p key={i} className="text-gray-700 text-sm mb-1">
-                    {line}
+                <div className="mt-2 flex items-center gap-2">
+                  <p
+                    className={`mb-2 text-sm ${
+                      product.stock > 0 ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {product.stock > 0
+                      ? `In Stock (${product.stock})`
+                      : "Out of Stock"}
                   </p>
-                ))}
+                </div>
+
+                {/* price */}
+                <div className="mt-4 flex items-center justify-between gap-4">
+                  <p className="text-2xl font-extrabold leading-tight text-gray-900">
+                    ৳{product.price.toFixed(2)}
+                  </p>
+
+                  <button
+                    type="button"
+                    className="inline-flex items-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                    aria-label={`Add ${product.name} to cart`}
+                    onClick={() => {
+                      addToCart(product);
+                    }}
+                  >
+                    <IoCart className="-ms-2 me-2 h-5 w-5" />
+                    Add to cart
+                  </button>
+                </div>
+
+                {/* Product Code */}
+                {/* <p className="text-gray-500 text-xs mb-3">
+                  Code: {product.code}
+                </p> */}
               </div>
             </div>
-            <button
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-4"
-              onClick={() => {
-                addToCart(product);
-              }}
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

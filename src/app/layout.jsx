@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "@/styles/swiper.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { StoreProvider } from "./storeProvider";
@@ -27,7 +28,7 @@ export default function RootLayout({ children }) {
       >
         <StoreProvider>
           <Header />
-          <main className="bg-white h-screen p-4  pt-20">{children}</main>
+          <main className="bg-white min-h-screen p-4  pt-20">{children}</main>
           <Footer />
         </StoreProvider>
       </body>
