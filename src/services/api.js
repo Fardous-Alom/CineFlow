@@ -3,8 +3,7 @@ export const imagePath = "https://image.tmdb.org/t/p/w500";
 export const imagePathOriginal = "https://image.tmdb.org/t/p/original";
 
 const baseUrl = "https://api.themoviedb.org/3";
-// const apiKey = import.meta.env.VITE_API_KEY;
-const apiKey = '64451581595579cbad1f54e21adc7043';
+const apiKey = import.meta.env.VITE_API_KEY;
 
 // TRENDING
 export const fetchTrending = async (timeWindow = "day") => {
